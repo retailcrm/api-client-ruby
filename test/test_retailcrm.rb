@@ -6,7 +6,7 @@ require_relative './bootstrap'
 
 class RetailcrmTest < Minitest::Test
   def setup
-    @boot = Bootstrap.new()
+    @boot = Bootstrap.new
     @api  = Retailcrm.new(@boot.api_url, @boot.api_key)
   end
 

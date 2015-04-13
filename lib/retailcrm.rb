@@ -15,6 +15,10 @@ class Retailcrm
     @rr_params = { :apiKey => @rr_key }
   end
 
+  def self.up(params)
+    @rr_params = params
+  end
+
   ##
   # === Get orders by filter
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
@@ -27,12 +31,12 @@ class Retailcrm
   #   limit (Integer) (20|50|100)
   #   page (Integer)
   #   filter (Array)
-  def orders(filter = {}, limit = 20, page = 1)
+  def orders(filter = nil, limit = 20, page = 1)
     url = "#{@rr_url}orders"
     @rr_params[:limit] = limit
     @rr_params[:page] = page
-    @rr_params[:filter] = filter.to_json
-    return make_request(url)
+    @rr_params[:filter] = filter
+    make_request(url)
   end
 
   ##
@@ -48,10 +52,10 @@ class Retailcrm
   #   by (String)
   def orders_get(id, by = 'externalId')
     url = "#{@rr_url}orders/#{id}"
-    if (by != 'externalId')
+    if by != 'externalId'
       @rr_params[:by] = by
     end
-    return make_request(url)
+    make_request(url)
   end
 
   ##
@@ -67,7 +71,7 @@ class Retailcrm
   def orders_create(order)
     url = "#{@rr_url}orders/create"
     @rr_params[:order] = order.to_json
-    return make_request(url, 'post')
+    make_request(url, 'post')
   end
 
   ##
@@ -84,7 +88,7 @@ class Retailcrm
     id = order[:externalId]
     url = "#{@rr_url}orders/#{id}/edit"
     @rr_params[:order] = order.to_json
-    return make_request(url, 'post')
+    make_request(url, 'post')
   end
 
   ##
@@ -100,8 +104,7 @@ class Retailcrm
   def orders_upload(orders)
     url = "#{@rr_url}orders/upload"
     @rr_params[:orders] = orders.to_json
-    result = JSON.parse(make_request(url, 'post'))
-    return result[:uploadedOrders] || result
+    make_request(url, 'post')
   end
 
   ##
@@ -117,7 +120,7 @@ class Retailcrm
   def orders_fix_external_ids(orders)
     url = "#{@rr_url}orders/fix-external-ids"
     @rr_params[:orders] = orders.to_json
-    return make_request(url, 'post')
+    make_request(url, 'post')
   end
 
   ##
@@ -129,17 +132,19 @@ class Retailcrm
   #  => {...}
   #
   # Arguments:
-  #   startDate (Time) (Time.strftime('%Y-%m-%d %H:%M:%S'))
-  #   endDate (Time) (Time.strftime('%Y-%m-%d %H:%M:%S'))
+  #   start_date (Time) (Time.strftime('%Y-%m-%d %H:%M:%S'))
+  #   end_date (Time) (Time.strftime('%Y-%m-%d %H:%M:%S'))
   #   limit (Integer) (20|50|100)
   #   offset (Integer)
-  def orders_history(startDate = nil, endDate = nil, limit = 20, offset = 0)
+  #   skip_my_changes (Boolean)
+  def orders_history(start_date = nil, end_date = nil, limit = 100, offset = 0, skip_my_changes = true)
     url = "#{@rr_url}orders/history"
-    @rr_params[:startDate] = startDate
-    @rr_params[:endDate] = endDate
+    @rr_params[:startDate] = start_date
+    @rr_params[:endDate] = end_date
     @rr_params[:limit] = limit
     @rr_params[:offset] = offset
-    return make_request(url)
+    @rr_params[:skipMyChanges] = skip_my_changes
+    make_request(url)
   end
 
   ##
@@ -154,7 +159,7 @@ class Retailcrm
   #   ids (Array)
   def orders_statuses(ids)
     url = "#{@rr_url}orders/statuses/#{ids}"
-    return make_request(url)
+    make_request(url)
   end
 
   ##
@@ -170,10 +175,10 @@ class Retailcrm
   #   by (String)
   def customers_get(id, by = 'externalId')
     url = "#{@rr_url}customers/#{id}"
-    if (by != 'externalId')
+    if by != 'externalId'
       @rr_params[:by] = by
     end
-    return make_request(url)
+    make_request(url)
   end
 
   ##
@@ -189,7 +194,7 @@ class Retailcrm
   def customers_create(customer)
     url = "#{@rr_url}customers/create"
     @rr_params[:customer] = customer.to_json
-    return make_request(url, 'post')
+    make_request(url, 'post')
   end
 
   ##
@@ -202,10 +207,11 @@ class Retailcrm
   #
   # Arguments:
   #   customer (Array)
-  def customers_edit(customer, id)
+  def customers_edit(customer)
+    id = customer[:externalId]
     url = "#{@rr_url}customers/#{id}/edit"
     @rr_params[:customer] = customer.to_json
-    return make_request(url, 'post')
+    make_request(url, 'post')
   end
 
   ##
@@ -221,8 +227,7 @@ class Retailcrm
   def customers_upload(customers)
     url = "#{@rr_url}customers/upload"
     @rr_params[:customers] = customers.to_json
-    result = JSON.parse(make_request(url, 'post'))
-    return result[:uploaded] || result
+    make_request(url, 'post')
   end
 
   ##
@@ -238,7 +243,7 @@ class Retailcrm
   def customers_fix_external_ids(customers)
     url = "#{@rr_url}customers/fix-external-ids"
     @rr_params[:customers] = customers.to_json
-    return make_request(url, 'post')
+    make_request(url, 'post')
   end
 
   ##
@@ -247,7 +252,7 @@ class Retailcrm
   #
   def delivery_services
     url = "#{@rr_url}reference/delivery-services"
-    return make_request(url)
+    make_request(url)
   end
 
   # Get delivery types
@@ -255,7 +260,7 @@ class Retailcrm
   #
   def delivery_types
     url = "#{@rr_url}reference/delivery-types"
-    return make_request(url)
+    make_request(url)
   end
 
   ##
@@ -264,7 +269,7 @@ class Retailcrm
   #
   def order_methods
     url = "#{@rr_url}reference/order-methods"
-    return make_request(url)
+    make_request(url)
   end
 
   ##
@@ -273,7 +278,7 @@ class Retailcrm
   #
   def order_types
     url = "#{@rr_url}reference/order-types"
-    return make_request(url)
+    make_request(url)
   end
 
   # Get payment statuses
@@ -281,7 +286,7 @@ class Retailcrm
   #
   def payment_statuses
     url = "#{@rr_url}reference/payment-statuses"
-    return make_request(url)
+    make_request(url)
   end
 
   ##
@@ -290,7 +295,7 @@ class Retailcrm
   #
   def payment_types
     url = "#{@rr_url}reference/payment-types"
-    return make_request(url)
+    make_request(url)
   end
 
   ##
@@ -299,7 +304,7 @@ class Retailcrm
   #
   def product_statuses
     url = "#{@rr_url}reference/product-statuses"
-    return make_request(url)
+    make_request(url)
   end
 
   # Get sites list
@@ -307,7 +312,7 @@ class Retailcrm
   #
   def sites
     url = "#{@rr_url}reference/sites"
-    return make_request(url)
+    make_request(url)
   end
 
   ##
@@ -316,7 +321,7 @@ class Retailcrm
   #
   def status_groups
     url = "#{@rr_url}reference/status-groups"
-    return make_request(url)
+    make_request(url)
   end
 
   # Get statuses
@@ -324,7 +329,7 @@ class Retailcrm
   #
   def statuses
     url = "#{@rr_url}reference/statuses"
-    return make_request(url)
+    make_request(url)
   end
 
   ##
@@ -333,7 +338,7 @@ class Retailcrm
   #
   def stores
     url = "#{@rr_url}reference/stores"
-    return make_request(url)
+    make_request(url)
   end
 
 
@@ -343,13 +348,14 @@ class Retailcrm
   #
   def statistic_update
     url = "#{@rr_url}statistic/update"
-    return make_request(url)
+    make_request(url)
   end
 
   protected
 
   def make_request(url, method='get')
     raise ArgumentError, 'url must be not empty' unless !url.empty?
+    filter = nil
     uri = URI.parse(url)
     https = Net::HTTP.new(uri.host, uri.port)
     https.use_ssl = true
@@ -357,30 +363,29 @@ class Retailcrm
       request = Net::HTTP::Post.new(uri)
       request.set_form_data(@rr_params)
     elsif method == 'get'
+      unless @rr_params[:filter].nil?
+        filter = @rr_params[:filter].to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join("&")
+      end
       request = Net::HTTP::Get.new(uri.path)
       request.set_form_data(@rr_params)
-      request = Net::HTTP::Get.new("#{uri.path}?#{request.body}")
+      data = filter.nil? ? "#{request.body}" : "#{request.body}&#{filter}"
+      request = Net::HTTP::Get.new("#{uri.path}?#{data}")
+
     end
     response = https.request(request)
-    return Retailcrm::Response.new(response.code, response.body)
+    Retailcrm::Response.new(response.code, response.body)
   end
 end
 
 class Retailcrm::Response
+    attr_reader :status, :response
+
     def initialize(status, body)
         @status = status
-        @response = body.empty? ? [] : JSON.parse(body);
+        @response = body.empty? ? [] : JSON.parse(body)
     end
-    
-    def get_status
-        return @status
-    end
-    
-    def get_response
-        return @response
-    end
-    
+
     def is_successfull?
-        return @status.to_i < 400
+        @status.to_i < 400
     end
 end

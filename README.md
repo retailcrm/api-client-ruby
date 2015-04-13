@@ -17,9 +17,9 @@ gem install retailcrm
 ```ruby
 require 'retailcrm'
 
-api = Retailcrm.new('https://yourcrmname.intarocrm.ru', 'yourApiKeyHere')
+api = Retailcrm.new('https://yourcrmname.retailcrm.ru', 'yourApiKeyHere')
 
-response = api.orders_get(345, 'id').get_response
+response = api.orders_get(345, 'id').response
 order = response[:order]
 
 ```
@@ -64,12 +64,15 @@ order = {
   ]
 }
 
-response = api.orders_create(order).get_response
+response = api.orders_create(order).response
 order_id = response[:id]
 
 ```
 
-#### REST API Documentation
+#### Документация REST API
 
 http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
 
+#### Документация API библиотеки
+
+http://www.rubydoc.info/gems/retailcrm
