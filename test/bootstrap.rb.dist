@@ -1,0 +1,65 @@
+# encoding: utf-8
+
+class Bootstrap
+
+  attr_reader :api_key, :api_url, :order, :customer, :order_edit
+
+  def initialize()
+    @api_url = 'https://demo.retailcrm.ru'
+    @api_key = ''
+
+    id   = Time.now.to_i
+    time = Time.now.strftime("%F %T")
+
+    @customer = {
+      :externalId => id,
+      :createdAt => time,
+      :firstName => 'API',
+      :lastName => 'Test',
+      :email => 'pupkin@example.org',
+      :phones => [{:number => '+79099099090'}]
+    }
+
+    @order = {
+      :externalId => id,
+      :number => "#{id}",
+      :orderType => 'eshop-individual',
+      :orderMethod => 'phone',
+      :createdAt => time,
+      :discountPercent => 10,
+      :firstName => 'API',
+      :lastName => 'Test',
+      :customer => {
+        :firstName => 'Тестовый',
+        :lastName => 'Клиент',
+        :phones => [{:number => '+79099099090'}],
+      },
+      :delivery => {
+        :code => 'courier',
+        :cost => 500,
+        :address => {:text => '344000, Ростов-на-Дону, пр. Буденовский, 13'}
+      },
+      :status => 'new',
+      :items => [
+        {
+          :productName => 'Товар 1',
+          :initialPrice => 500,
+          :quantity => 2
+        },
+        {
+          :productName => 'Товар 2',
+          :initialPrice => 1300,
+          :quantity => 1
+        }
+      ]
+    }
+
+    @order_edit = {
+      :externalId => 1428877985,
+      :email => 'test@example.org',
+      :phone => '+79999999999',
+      :status => 'cancel-other',
+    }
+  end
+end
+
