@@ -1,3 +1,5 @@
+[![Gem Version](https://badge.fury.io/rb/retailcrm.svg)](http://badge.fury.io/rb/retailcrm)
+
 Ruby-клиент для retailCRM API
 =============================
 
