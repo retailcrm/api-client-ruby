@@ -9,10 +9,10 @@ require 'json'
 class Retailcrm
 
   def initialize(url, key)
-    @rr_version = 3
-    @rr_url = "#{url}/api/v#{@rr_version}/"
-    @rr_key = key
-    @rr_params = { :apiKey => @rr_key }
+    @version = 3
+    @url = "#{url}/api/v#{@version}/"
+    @key = key
+    @params = { :apiKey => @key }
     @filter = nil
     @ids = nil
   end
@@ -30,9 +30,9 @@ class Retailcrm
   #   limit (Integer) (20|50|100)
   #   page (Integer)
   def orders(filter = nil, limit = 20, page = 1)
-    url = "#{@rr_url}orders"
-    @rr_params[:limit] = limit
-    @rr_params[:page] = page
+    url = "#{@url}orders"
+    @params[:limit] = limit
+    @params[:page] = page
     @filter = filter.to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join("&")
     make_request(url)
   end
@@ -49,7 +49,7 @@ class Retailcrm
   #   ids (Array)
   def orders_statuses(ids = [])
     @ids = ids.map { |x| "ids[]=#{x}" }.join("&")
-    url = "#{@rr_url}orders/statuses"
+    url = "#{@url}orders/statuses"
     make_request(url)
   end
 
@@ -65,9 +65,9 @@ class Retailcrm
   #   id (Integer)
   #   by (String)
   def orders_get(id, by = 'externalId')
-    url = "#{@rr_url}orders/#{id}"
+    url = "#{@url}orders/#{id}"
     if by != 'externalId'
-      @rr_params[:by] = by
+      @params[:by] = by
     end
     make_request(url)
   end
@@ -83,8 +83,8 @@ class Retailcrm
   # Arguments:
   #   order (Array)
   def orders_create(order)
-    url = "#{@rr_url}orders/create"
-    @rr_params[:order] = order.to_json
+    url = "#{@url}orders/create"
+    @params[:order] = order.to_json
     make_request(url, 'post')
   end
 
@@ -100,8 +100,8 @@ class Retailcrm
   #   order (Array)
   def orders_edit(order)
     id = order[:externalId]
-    url = "#{@rr_url}orders/#{id}/edit"
-    @rr_params[:order] = order.to_json
+    url = "#{@url}orders/#{id}/edit"
+    @params[:order] = order.to_json
     make_request(url, 'post')
   end
 
@@ -116,8 +116,8 @@ class Retailcrm
   # Arguments:
   #   orders (Array)
   def orders_upload(orders)
-    url = "#{@rr_url}orders/upload"
-    @rr_params[:orders] = orders.to_json
+    url = "#{@url}orders/upload"
+    @params[:orders] = orders.to_json
     make_request(url, 'post')
   end
 
@@ -132,8 +132,8 @@ class Retailcrm
   # Arguments:
   #   orders (Array)
   def orders_fix_external_ids(orders)
-    url = "#{@rr_url}orders/fix-external-ids"
-    @rr_params[:orders] = orders.to_json
+    url = "#{@url}orders/fix-external-ids"
+    @params[:orders] = orders.to_json
     make_request(url, 'post')
   end
 
@@ -152,12 +152,32 @@ class Retailcrm
   #   offset (Integer)
   #   skip_my_changes (Boolean)
   def orders_history(start_date = nil, end_date = nil, limit = 100, offset = 0, skip_my_changes = true)
-    url = "#{@rr_url}orders/history"
-    @rr_params[:startDate] = start_date
-    @rr_params[:endDate] = end_date
-    @rr_params[:limit] = limit
-    @rr_params[:offset] = offset
-    @rr_params[:skipMyChanges] = skip_my_changes
+    url = "#{@url}orders/history"
+    @params[:startDate] = start_date
+    @params[:endDate] = end_date
+    @params[:limit] = limit
+    @params[:offset] = offset
+    @params[:skipMyChanges] = skip_my_changes
+    make_request(url)
+  end
+
+  ##
+  # === Get orders assembly history
+  # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
+  #
+  # Example:
+  #  >> Retailcrm.orders_packs_history({:orderId => 26120, :startDate => '2015-04-10 23:33:12'}, 50, 2)
+  #  => {...}
+  #
+  # Arguments:
+  #   filter (Hash)
+  #   limit (Integer) (20|50|100)
+  #   page (Integer)
+  def orders_packs_history(filter = nil, limit = 20, page = 1)
+    url = "#{@url}orders/packs/history"
+    @params[:limit] = limit
+    @params[:page] = page
+    @filter = filter.to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join("&")
     make_request(url)
   end
 
@@ -174,9 +194,9 @@ class Retailcrm
   #   limit (Integer) (20|50|100)
   #   page (Integer)
   def customers(filter = nil, limit = 20, page = 1)
-    url = "#{@rr_url}customers"
-    @rr_params[:limit] = limit
-    @rr_params[:page] = page
+    url = "#{@url}customers"
+    @params[:limit] = limit
+    @params[:page] = page
     @filter = filter.to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join("&")
     make_request(url)
   end
@@ -193,9 +213,9 @@ class Retailcrm
   #   id (Integer)
   #   by (String)
   def customers_get(id, by = 'externalId')
-    url = "#{@rr_url}customers/#{id}"
+    url = "#{@url}customers/#{id}"
     if by != 'externalId'
-      @rr_params[:by] = by
+      @params[:by] = by
     end
     make_request(url)
   end
@@ -211,8 +231,8 @@ class Retailcrm
   # Arguments:
   #   customer (Array)
   def customers_create(customer)
-    url = "#{@rr_url}customers/create"
-    @rr_params[:customer] = customer.to_json
+    url = "#{@url}customers/create"
+    @params[:customer] = customer.to_json
     make_request(url, 'post')
   end
 
@@ -228,8 +248,8 @@ class Retailcrm
   #   customer (Array)
   def customers_edit(customer)
     id = customer[:externalId]
-    url = "#{@rr_url}customers/#{id}/edit"
-    @rr_params[:customer] = customer.to_json
+    url = "#{@url}customers/#{id}/edit"
+    @params[:customer] = customer.to_json
     make_request(url, 'post')
   end
 
@@ -244,8 +264,8 @@ class Retailcrm
   # Arguments:
   #   customers (Array)
   def customers_upload(customers)
-    url = "#{@rr_url}customers/upload"
-    @rr_params[:customers] = customers.to_json
+    url = "#{@url}customers/upload"
+    @params[:customers] = customers.to_json
     make_request(url, 'post')
   end
 
@@ -260,9 +280,29 @@ class Retailcrm
   # Arguments:
   #   customers (Array)
   def customers_fix_external_ids(customers)
-    url = "#{@rr_url}customers/fix-external-ids"
-    @rr_params[:customers] = customers.to_json
+    url = "#{@url}customers/fix-external-ids"
+    @params[:customers] = customers.to_json
     make_request(url, 'post')
+  end
+
+  ##
+  # === Get purchace prices & stock balance
+  # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
+  #
+  # Example:
+  #  >> Retailcrm.store_inventories({:productExternalId => 26120, :details => 1}, 50, 2)
+  #  => {...}
+  #
+  # Arguments:
+  #   filter (Hash)
+  #   limit (Integer) (20|50|100)
+  #   page (Integer)
+  def store_inventories(filter = nil, limit = 20, page = 1)
+    url = "#{@url}store/inventories"
+    @params[:limit] = limit
+    @params[:page] = page
+    @filter = filter.to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join("&")
+    make_request(url)
   end
 
   ##
@@ -270,7 +310,7 @@ class Retailcrm
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def delivery_services
-    url = "#{@rr_url}reference/delivery-services"
+    url = "#{@url}reference/delivery-services"
     make_request(url)
   end
 
@@ -278,7 +318,7 @@ class Retailcrm
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def delivery_types
-    url = "#{@rr_url}reference/delivery-types"
+    url = "#{@url}reference/delivery-types"
     make_request(url)
   end
 
@@ -287,7 +327,7 @@ class Retailcrm
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def order_methods
-    url = "#{@rr_url}reference/order-methods"
+    url = "#{@url}reference/order-methods"
     make_request(url)
   end
 
@@ -296,7 +336,7 @@ class Retailcrm
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def order_types
-    url = "#{@rr_url}reference/order-types"
+    url = "#{@url}reference/order-types"
     make_request(url)
   end
 
@@ -304,7 +344,7 @@ class Retailcrm
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def payment_statuses
-    url = "#{@rr_url}reference/payment-statuses"
+    url = "#{@url}reference/payment-statuses"
     make_request(url)
   end
 
@@ -313,7 +353,7 @@ class Retailcrm
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def payment_types
-    url = "#{@rr_url}reference/payment-types"
+    url = "#{@url}reference/payment-types"
     make_request(url)
   end
 
@@ -322,7 +362,7 @@ class Retailcrm
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def product_statuses
-    url = "#{@rr_url}reference/product-statuses"
+    url = "#{@url}reference/product-statuses"
     make_request(url)
   end
 
@@ -330,7 +370,7 @@ class Retailcrm
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def sites
-    url = "#{@rr_url}reference/sites"
+    url = "#{@url}reference/sites"
     make_request(url)
   end
 
@@ -339,7 +379,7 @@ class Retailcrm
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def status_groups
-    url = "#{@rr_url}reference/status-groups"
+    url = "#{@url}reference/status-groups"
     make_request(url)
   end
 
@@ -347,7 +387,7 @@ class Retailcrm
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def statuses
-    url = "#{@rr_url}reference/statuses"
+    url = "#{@url}reference/statuses"
     make_request(url)
   end
 
@@ -356,7 +396,7 @@ class Retailcrm
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def stores
-    url = "#{@rr_url}reference/stores"
+    url = "#{@url}reference/stores"
     make_request(url)
   end
 
@@ -366,7 +406,7 @@ class Retailcrm
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def statistic_update
-    url = "#{@rr_url}statistic/update"
+    url = "#{@url}statistic/update"
     make_request(url)
   end
 
@@ -380,10 +420,10 @@ class Retailcrm
 
     if method == 'post'
       request = Net::HTTP::Post.new(uri)
-      request.set_form_data(@rr_params)
+      request.set_form_data(@params)
     elsif method == 'get'
       request = Net::HTTP::Get.new(uri.path)
-      request.set_form_data(@rr_params)
+      request.set_form_data(@params)
 
       if @filter.nil?
         data = "#{request.body}"
