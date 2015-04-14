@@ -13,10 +13,8 @@ class Retailcrm
     @rr_url = "#{url}/api/v#{@rr_version}/"
     @rr_key = key
     @rr_params = { :apiKey => @rr_key }
-  end
-
-  def self.up(params)
-    @rr_params = params
+    @filter = nil
+    @ids = nil
   end
 
   ##
@@ -24,18 +22,34 @@ class Retailcrm
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   # Example:
-  #  >> Retailcrm.orders(50, 2, {:email => 'test@example.com', :status => 'new'})
+  #  >> Retailcrm.orders({:email => 'test@example.com', :status => 'new'}, 50, 2)
   #  => {...}
   #
   # Arguments:
+  #   filter (Hash)
   #   limit (Integer) (20|50|100)
   #   page (Integer)
-  #   filter (Array)
   def orders(filter = nil, limit = 20, page = 1)
     url = "#{@rr_url}orders"
     @rr_params[:limit] = limit
     @rr_params[:page] = page
-    @rr_params[:filter] = filter
+    @filter = filter.to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join("&")
+    make_request(url)
+  end
+
+  ##
+  # === Get orders statuses
+  # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
+  #
+  # Example:
+  #  >> Retailcrm.orders_statuses([26120, 19282])
+  #  => {...}
+  #
+  # Arguments:
+  #   ids (Array)
+  def orders_statuses(ids = [])
+    @ids = ids.map { |x| "ids[]=#{x}" }.join("&")
+    url = "#{@rr_url}orders/statuses"
     make_request(url)
   end
 
@@ -148,17 +162,22 @@ class Retailcrm
   end
 
   ##
-  # ===  Get orders statuses
+  # === Get customers by filter
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   # Example:
-  #  >> Retailcrm.orders_statuses([231,244,356,564])
+  #  >> Retailcrm.customers({:email => 'test@example.com'}, 50, 2)
   #  => {...}
   #
   # Arguments:
-  #   ids (Array)
-  def orders_statuses(ids)
-    url = "#{@rr_url}orders/statuses/#{ids}"
+  #   filter (Hash)
+  #   limit (Integer) (20|50|100)
+  #   page (Integer)
+  def customers(filter = nil, limit = 20, page = 1)
+    url = "#{@rr_url}customers"
+    @rr_params[:limit] = limit
+    @rr_params[:page] = page
+    @filter = filter.to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join("&")
     make_request(url)
   end
 
@@ -355,22 +374,30 @@ class Retailcrm
 
   def make_request(url, method='get')
     raise ArgumentError, 'url must be not empty' unless !url.empty?
-    filter = nil
     uri = URI.parse(url)
     https = Net::HTTP.new(uri.host, uri.port)
     https.use_ssl = true
+
     if method == 'post'
       request = Net::HTTP::Post.new(uri)
       request.set_form_data(@rr_params)
     elsif method == 'get'
-      unless @rr_params[:filter].nil?
-        filter = @rr_params[:filter].to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join("&")
-      end
       request = Net::HTTP::Get.new(uri.path)
       request.set_form_data(@rr_params)
-      data = filter.nil? ? "#{request.body}" : "#{request.body}&#{filter}"
-      request = Net::HTTP::Get.new("#{uri.path}?#{data}")
 
+      if @filter.nil?
+        data = "#{request.body}"
+      else
+        data = "#{request.body}&#{@filter}"
+      end
+
+      if @ids.nil?
+        data = "#{request.body}"
+      else
+        data = "#{request.body}&#{@ids}"
+      end
+
+      request = Net::HTTP::Get.new("#{uri.path}?#{data}")
     end
     response = https.request(request)
     Retailcrm::Response.new(response.code, response.body)
