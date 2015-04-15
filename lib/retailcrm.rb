@@ -64,10 +64,12 @@ class Retailcrm
   # Arguments:
   #   id (Integer)
   #   by (String)
-  def orders_get(id, by = 'externalId')
+  #   site (String)
+  def orders_get(id, by = 'externalId', site = nil)
     url = "#{@url}orders/#{id}"
     if by != 'externalId'
       @params[:by] = by
+      @params[:site] = site
     end
     make_request(url)
   end
@@ -82,9 +84,11 @@ class Retailcrm
   #
   # Arguments:
   #   order (Array)
-  def orders_create(order)
+  #   site (String)
+  def orders_create(order, site = nil)
     url = "#{@url}orders/create"
     @params[:order] = order.to_json
+    @params[:site] = site
     make_request(url, 'post')
   end
 
@@ -98,10 +102,12 @@ class Retailcrm
   #
   # Arguments:
   #   order (Array)
-  def orders_edit(order)
+  #   site (String)
+  def orders_edit(order, site = nil)
     id = order[:externalId]
     url = "#{@url}orders/#{id}/edit"
     @params[:order] = order.to_json
+    @params[:site] = site
     make_request(url, 'post')
   end
 
@@ -115,9 +121,11 @@ class Retailcrm
   #
   # Arguments:
   #   orders (Array)
-  def orders_upload(orders)
+  #   site (String)
+  def orders_upload(orders, site = nil)
     url = "#{@url}orders/upload"
     @params[:orders] = orders.to_json
+    @params[:site] = site
     make_request(url, 'post')
   end
 
@@ -212,8 +220,10 @@ class Retailcrm
   # Arguments:
   #   id (Integer)
   #   by (String)
-  def customers_get(id, by = 'externalId')
+  #   site (String)
+  def customers_get(id, by = 'externalId', site = nil)
     url = "#{@url}customers/#{id}"
+    @params[:site] = site
     if by != 'externalId'
       @params[:by] = by
     end
@@ -230,9 +240,11 @@ class Retailcrm
   #
   # Arguments:
   #   customer (Array)
-  def customers_create(customer)
+  #   site (String)
+  def customers_create(customer, site = nil)
     url = "#{@url}customers/create"
     @params[:customer] = customer.to_json
+    @params[:site] = site
     make_request(url, 'post')
   end
 
@@ -246,10 +258,12 @@ class Retailcrm
   #
   # Arguments:
   #   customer (Array)
-  def customers_edit(customer)
+  #   site (String)
+  def customers_edit(customer, site = nil)
     id = customer[:externalId]
     url = "#{@url}customers/#{id}/edit"
     @params[:customer] = customer.to_json
+    @params[:site] = site
     make_request(url, 'post')
   end
 
@@ -263,9 +277,11 @@ class Retailcrm
   #
   # Arguments:
   #   customers (Array)
-  def customers_upload(customers)
+  #   site (String)
+  def customers_upload(customers, site = nil)
     url = "#{@url}customers/upload"
     @params[:customers] = customers.to_json
+    @params[:site] = site
     make_request(url, 'post')
   end
 
@@ -306,6 +322,24 @@ class Retailcrm
   end
 
   ##
+  # === Set purchace prices & stock balance
+  # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
+  #
+  # Example:
+  #  >> Retailcrm.store_inventories_upload({:offers => [{:externalId => 123, :stores => [{:code => 'store_1', :available => 15, :purchasePrice => 1000}]}]}, :site => 'main_site')
+  #  => {...}
+  #
+  # Arguments:
+  #   offers (Array)
+  #   site (String)
+  def store_inventories_upload(offers = [], site = nil)
+    url = "#{@url}store/inventories/upload"
+    @params[:offers] = offers
+    @params[:site] = site
+    make_request(url, 'post')
+  end
+
+  ##
   # ===  Get delivery services
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
@@ -314,12 +348,32 @@ class Retailcrm
     make_request(url)
   end
 
+  ##
+  # ===  Edit delivery service
+  # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
+  #
+  def delivery_services_edit(delivery_service)
+    code = delivery_service[:code]
+    url = "#{@url}reference/delivery-services/#{code}/edit"
+    make_request(url, 'post')
+  end
+
   # Get delivery types
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def delivery_types
     url = "#{@url}reference/delivery-types"
     make_request(url)
+  end
+
+  ##
+  # ===  Edit delivery type
+  # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
+  #
+  def delivery_types_edit(delivery_type)
+    code = delivery_type[:code]
+    url = "#{@url}reference/delivery-types/#{code}/edit"
+    make_request(url, 'post')
   end
 
   ##
@@ -332,6 +386,16 @@ class Retailcrm
   end
 
   ##
+  # ===  Edit order method
+  # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
+  #
+  def order_methods_edit(order_method)
+    code = order_method[:code]
+    url = "#{@url}reference/order-methods/#{code}/edit"
+    make_request(url, 'post')
+  end
+
+  ##
   # ===  Get order types
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
@@ -340,12 +404,32 @@ class Retailcrm
     make_request(url)
   end
 
+  ##
+  # ===  Edit order type
+  # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
+  #
+  def order_types_edit(order_type)
+    code = order_type[:code]
+    url = "#{@url}reference/order-types/#{code}/edit"
+    make_request(url, 'post')
+  end
+
   # Get payment statuses
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def payment_statuses
     url = "#{@url}reference/payment-statuses"
     make_request(url)
+  end
+
+  ##
+  # ===  Edit payment status
+  # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
+  #
+  def payment_statuses_edit(payment_status)
+    code = payment_status[:code]
+    url = "#{@url}reference/payment-statuses/#{code}/edit"
+    make_request(url, 'post')
   end
 
   ##
@@ -358,6 +442,16 @@ class Retailcrm
   end
 
   ##
+  # ===  Edit payment type
+  # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
+  #
+  def payment_types_edit(payment_type)
+    code = payment_type[:code]
+    url = "#{@url}reference/payment-type/#{code}/edit"
+    make_request(url, 'post')
+  end
+
+  ##
   # ===  Get product statuses
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
@@ -366,12 +460,32 @@ class Retailcrm
     make_request(url)
   end
 
+  ##
+  # ===  Edit product status
+  # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
+  #
+  def product_statuses_edit(product_status)
+    code = product_status[:code]
+    url = "#{@url}reference/product-statuses/#{code}/edit"
+    make_request(url, 'post')
+  end
+
   # Get sites list
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def sites
     url = "#{@url}reference/sites"
     make_request(url)
+  end
+
+  ##
+  # ===  Edit site
+  # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
+  #
+  def sites_edit(site)
+    code = site[:code]
+    url = "#{@url}reference/sites/#{code}/edit"
+    make_request(url, 'post')
   end
 
   ##
@@ -392,12 +506,32 @@ class Retailcrm
   end
 
   ##
+  # ===  Edit status
+  # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
+  #
+  def statuses_edit(status)
+    code = status[:code]
+    url = "#{@url}reference/statuses/#{code}/edit"
+    make_request(url, 'post')
+  end
+
+  ##
   # ===  Get stores
   # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
   #
   def stores
     url = "#{@url}reference/stores"
     make_request(url)
+  end
+
+  ##
+  # ===  Edit store
+  # http://www.retailcrm.ru/docs/Разработчики/СправочникМетодовAPIV3
+  #
+  def stores_edit(store)
+    code = store[:code]
+    url = "#{@url}reference/stores/#{code}/edit"
+    make_request(url, 'post')
   end
 
 
