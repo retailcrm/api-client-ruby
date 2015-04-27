@@ -29,7 +29,7 @@ order = response[:order]
 ```ruby
 require 'retailcrm'
 
-api = Retailcrm.new('https://yourcrmname.intarocrm.ru', 'yourApiKeyHere')
+api = Retailcrm.new('https://yourcrmname.retailcrm.ru', 'yourApiKeyHere')
 
 order = {
   :externalId => 171,
