@@ -1,11 +1,16 @@
 # encoding: utf-8
 
+# noinspection RubyResolve
 require 'net/http'
+# noinspection RubyResolve
 require 'net/https'
+# noinspection RubyResolve
 require 'uri'
+# noinspection RubyResolve
 require 'json'
 
 # RetailCRM API Client
+# noinspection ALL
 class Retailcrm
 
   def initialize(url, key)
@@ -33,7 +38,7 @@ class Retailcrm
     url = "#{@url}orders"
     @params[:limit] = limit
     @params[:page] = page
-    @filter = filter.to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join("&")
+    @filter = filter.to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join('&')
     make_request(url)
   end
 
@@ -48,7 +53,7 @@ class Retailcrm
   # Arguments:
   #   ids (Array)
   def orders_statuses(ids = [])
-    @ids = ids.map { |x| "ids[]=#{x}" }.join("&")
+    @ids = ids.map { |x| "ids[]=#{x}" }.join('&')
     url = "#{@url}orders/statuses"
     make_request(url)
   end
@@ -185,7 +190,7 @@ class Retailcrm
     url = "#{@url}orders/packs/history"
     @params[:limit] = limit
     @params[:page] = page
-    @filter = filter.to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join("&")
+    @filter = filter.to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join('&')
     make_request(url)
   end
 
@@ -205,7 +210,7 @@ class Retailcrm
     url = "#{@url}customers"
     @params[:limit] = limit
     @params[:page] = page
-    @filter = filter.to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join("&")
+    @filter = filter.to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join('&')
     make_request(url)
   end
 
@@ -317,7 +322,7 @@ class Retailcrm
     url = "#{@url}store/inventories"
     @params[:limit] = limit
     @params[:page] = page
-    @filter = filter.to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join("&")
+    @filter = filter.to_a.map { |x| "filter[#{x[0]}]=#{x[1]}" }.join('&')
     make_request(url)
   end
 
@@ -355,6 +360,7 @@ class Retailcrm
   def delivery_services_edit(delivery_service)
     code = delivery_service[:code]
     url = "#{@url}reference/delivery-services/#{code}/edit"
+    @params[:deliveryService] = delivery_service.to_json
     make_request(url, 'post')
   end
 
@@ -373,6 +379,7 @@ class Retailcrm
   def delivery_types_edit(delivery_type)
     code = delivery_type[:code]
     url = "#{@url}reference/delivery-types/#{code}/edit"
+    @params[:deliveryType] = delivery_type.to_json
     make_request(url, 'post')
   end
 
@@ -392,6 +399,7 @@ class Retailcrm
   def order_methods_edit(order_method)
     code = order_method[:code]
     url = "#{@url}reference/order-methods/#{code}/edit"
+    @params[:orderMethod] = order_method.to_json
     make_request(url, 'post')
   end
 
@@ -411,6 +419,7 @@ class Retailcrm
   def order_types_edit(order_type)
     code = order_type[:code]
     url = "#{@url}reference/order-types/#{code}/edit"
+    @params[:orderType] = order_type.to_json
     make_request(url, 'post')
   end
 
@@ -429,6 +438,7 @@ class Retailcrm
   def payment_statuses_edit(payment_status)
     code = payment_status[:code]
     url = "#{@url}reference/payment-statuses/#{code}/edit"
+    @params[:paymentStatus] = payment_status.to_json
     make_request(url, 'post')
   end
 
@@ -447,7 +457,8 @@ class Retailcrm
   #
   def payment_types_edit(payment_type)
     code = payment_type[:code]
-    url = "#{@url}reference/payment-type/#{code}/edit"
+    url = "#{@url}reference/payment-types/#{code}/edit"
+    @params[:paymentType] = payment_type.to_json
     make_request(url, 'post')
   end
 
@@ -467,6 +478,7 @@ class Retailcrm
   def product_statuses_edit(product_status)
     code = product_status[:code]
     url = "#{@url}reference/product-statuses/#{code}/edit"
+    @params[:productStatus] = product_status.to_json
     make_request(url, 'post')
   end
 
@@ -485,6 +497,7 @@ class Retailcrm
   def sites_edit(site)
     code = site[:code]
     url = "#{@url}reference/sites/#{code}/edit"
+    @params[:site] = site.to_json
     make_request(url, 'post')
   end
 
@@ -512,6 +525,7 @@ class Retailcrm
   def statuses_edit(status)
     code = status[:code]
     url = "#{@url}reference/statuses/#{code}/edit"
+    @params[:status] = status.to_json
     make_request(url, 'post')
   end
 
@@ -531,6 +545,7 @@ class Retailcrm
   def stores_edit(store)
     code = store[:code]
     url = "#{@url}reference/stores/#{code}/edit"
+    @params[:store] = store.to_json
     make_request(url, 'post')
   end
 
@@ -558,17 +573,14 @@ class Retailcrm
     elsif method == 'get'
       request = Net::HTTP::Get.new(uri.path)
       request.set_form_data(@params)
+      data = "#{request.body}"
 
-      if @filter.nil?
-        data = "#{request.body}"
-      else
-        data = "#{request.body}&#{@filter}"
+      unless @filter.nil?
+        data = data + "&#{@filter}"
       end
 
-      if @ids.nil?
-        data = "#{request.body}"
-      else
-        data = "#{request.body}&#{@ids}"
+      unless @ids.nil?
+        data = data + "&#{@ids}"
       end
 
       request = Net::HTTP::Get.new("#{uri.path}?#{data}")
