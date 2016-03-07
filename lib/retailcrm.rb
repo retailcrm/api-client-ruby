@@ -355,7 +355,7 @@ class Retailcrm
   # Arguments:
   #   pack (Array)
   #   site (String)
-  def customers_create(pack, site = nil)
+  def packs_create(pack, site = nil)
     url = "#{@url}orders/packs/create"
     @params[:pack] = pack.to_json
     @params[:site] = site
@@ -429,7 +429,7 @@ class Retailcrm
   # Arguments:
   #   id (Integer)
   #   site (String)
-  def packs_edit(id, site = nil)
+  def packs_delete(id, site = nil)
     url = "#{@url}orders/packs/#{id}/delete"
     @params[:site] = site
     make_request(url, 'post')
