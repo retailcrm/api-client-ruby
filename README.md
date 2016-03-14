@@ -17,7 +17,7 @@ gem install retailcrm
 ```ruby
 require 'retailcrm'
 
-api = Retailcrm.new('https://yourcrmname.retailcrm.ru', 'yourApiKeyHere')
+api = Retailcrm.new('https://yourcrmname.retailcrm.pro', 'yourApiKeyHere')
 
 response = api.orders_get(345, 'id').response
 order = response[:order]
@@ -29,7 +29,7 @@ order = response[:order]
 ```ruby
 require 'retailcrm'
 
-api = Retailcrm.new('https://yourcrmname.retailcrm.ru', 'yourApiKeyHere')
+api = Retailcrm.new('https://yourcrmname.retailcrm.pro', 'yourApiKeyHere')
 
 order = {
   :externalId => 171,
@@ -71,5 +71,5 @@ order_id = response[:id]
 
 #### Documentation
 
-* http://www.retailcrm.ru/docs/Developers/ApiVersion3
+* http://www.retailcrm.pro/docs/Developers/ApiVersion3
 * http://www.rubydoc.info/gems/retailcrm
