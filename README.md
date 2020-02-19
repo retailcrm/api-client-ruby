@@ -1,4 +1,5 @@
-[![Gem Version](https://badge.fury.io/rb/retailcrm.svg)](http://badge.fury.io/rb/retailcrm)
+[![Gem](https://img.shields.io/gem/v/retailcrm?color=red&style=flat-square)](https://rubygems.org/gems/retailcrm)
+[![RDoc](https://img.shields.io/badge/RDoc-reference-red.svg?style=flat-square)](http://www.rubydoc.info/gems/retailcrm)
 
 retailCRM API ruby client
 =========================
@@ -69,7 +70,7 @@ order_id = response[:id]
 
 ```
 
-#### Documentation
+### Documentation
 
-* http://www.retailcrm.pro/docs/Developers/ApiVersion3
-* http://www.rubydoc.info/gems/retailcrm
+* [English](https://help.retailcrm.pro/Developers)
+* [Russian](https://help.retailcrm.ru/Developers)
