@@ -1,7 +1,7 @@
-[![Gem](https://img.shields.io/gem/v/retailcrm?color=red&style=flat-square)](https://rubygems.org/gems/retailcrm)
-[![RDoc](https://img.shields.io/badge/RDoc-reference-red.svg?style=flat-square)](http://www.rubydoc.info/gems/retailcrm)
+[![Gem](https://img.shields.io/gem/v/retailcrm?color=red)](https://rubygems.org/gems/retailcrm)
+[![RDoc](https://img.shields.io/badge/RDoc-reference-red.svg)](http://www.rubydoc.info/gems/retailcrm)
 
-retailCRM API ruby client
+RetailCRM API ruby client
 =========================
 
 
@@ -18,7 +18,7 @@ gem install retailcrm
 ```ruby
 require 'retailcrm'
 
-api = Retailcrm.new('https://yourcrmname.retailcrm.pro', 'yourApiKeyHere')
+api = Retailcrm.new('https://demo.retailcrm.pro', 'yourApiKeyHere')
 
 response = api.orders_get(345, 'id').response
 order = response[:order]
@@ -30,7 +30,7 @@ order = response[:order]
 ```ruby
 require 'retailcrm'
 
-api = Retailcrm.new('https://yourcrmname.retailcrm.pro', 'yourApiKeyHere')
+api = Retailcrm.new('https://demo.retailcrm.pro', 'yourApiKeyHere')
 
 order = {
   :externalId => 171,
@@ -69,8 +69,3 @@ response = api.orders_create(order).response
 order_id = response[:id]
 
 ```
-
-### Documentation
-
-* [English](https://help.retailcrm.pro/Developers)
-* [Russian](https://help.retailcrm.ru/Developers)
