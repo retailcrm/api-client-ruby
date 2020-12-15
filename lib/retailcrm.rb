@@ -24,7 +24,6 @@ class Retailcrm
 
   ##
   # === Get orders by filter
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.orders({:email => 'test@example.com', :status => 'new'}, 50, 2)
@@ -44,7 +43,6 @@ class Retailcrm
 
   ##
   # === Get orders statuses
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.orders_statuses([26120, 19282])
@@ -60,7 +58,6 @@ class Retailcrm
 
   ##
   # ===  Get orders by id (or externalId)
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.orders_get(345, 'id')
@@ -81,7 +78,6 @@ class Retailcrm
 
   ##
   # ===  Create order
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.orders_create(order)
@@ -99,7 +95,6 @@ class Retailcrm
 
   ##
   # ===  Edit order
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.orders_edit(order)
@@ -118,7 +113,6 @@ class Retailcrm
 
   ##
   # ===  Upload orders
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.orders_upload(orders)
@@ -136,7 +130,6 @@ class Retailcrm
 
   ##
   # ===  Set external ids for orders created into CRM
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.orders_fix_external_ids([{:id => 200, :externalId => 334}, {:id => 201, :externalId => 364}])
@@ -152,7 +145,6 @@ class Retailcrm
 
   ##
   # ===  Get orders history
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.orders_history('2015-04-10 22:23:12', '2015-04-10 23:33:12')
@@ -176,7 +168,6 @@ class Retailcrm
 
   ##
   # === Get customers by filter
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.customers({:email => 'test@example.com'}, 50, 2)
@@ -196,7 +187,6 @@ class Retailcrm
 
   ##
   # ===  Get customers by id (or externalId)
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.customers_get(345, 'id')
@@ -217,7 +207,6 @@ class Retailcrm
 
   ##
   # ===  Create customer
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.customer_create(customer)
@@ -235,7 +224,6 @@ class Retailcrm
 
   ##
   # ===  Edit customer
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.customers_edit(customer)
@@ -254,7 +242,6 @@ class Retailcrm
 
   ##
   # ===  Upload customers
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.customers_upload(customers)
@@ -272,7 +259,6 @@ class Retailcrm
 
   ##
   # ===  Set external ids for customers created into CRM
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.customers_fix_external_ids([{:id => 200, :externalId => 334}, {:id => 201, :externalId => 364}])
@@ -288,7 +274,6 @@ class Retailcrm
 
   ##
   # === Get purchace prices & stock balance
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.store_inventories({:productExternalId => 26120, :details => 1}, 50, 2)
@@ -308,7 +293,6 @@ class Retailcrm
 
   ##
   # === Set purchace prices & stock balance
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.store_inventories_upload({:offers => [{:externalId => 123, :stores => [{:code => 'store_1', :available => 15, :purchasePrice => 1000}]}]}, :site => 'main_site')
@@ -326,7 +310,6 @@ class Retailcrm
 
   ##
   # === Get packs by filter
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.packs({:store => 'main'}, 50, 2)
@@ -346,7 +329,6 @@ class Retailcrm
 
   ##
   # ===  Create pack
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.packs_create(pack)
@@ -364,7 +346,6 @@ class Retailcrm
 
   ##
   # === Get orders assembly history
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.packs_history({:orderId => 26120, :startDate => '2015-04-10 23:33:12'}, 50, 2)
@@ -384,7 +365,6 @@ class Retailcrm
 
   ##
   # ===  Get pack by id
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.packs_get(345)
@@ -401,7 +381,6 @@ class Retailcrm
 
   ##
   # ===  Edit pack
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.packs_edit(pack)
@@ -420,7 +399,6 @@ class Retailcrm
 
   ##
   # ===  Delete pack
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   # Example:
   #  >> Retailcrm.packs_delete(14)
@@ -437,7 +415,6 @@ class Retailcrm
 
   ##
   # ===  Get delivery services
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def delivery_services
     url = "#{@url}reference/delivery-services"
@@ -446,7 +423,6 @@ class Retailcrm
 
   ##
   # ===  Edit delivery service
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def delivery_services_edit(delivery_service)
     code = delivery_service[:code]
@@ -456,7 +432,6 @@ class Retailcrm
   end
 
   # Get delivery types
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def delivery_types
     url = "#{@url}reference/delivery-types"
@@ -465,7 +440,6 @@ class Retailcrm
 
   ##
   # ===  Edit delivery type
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def delivery_types_edit(delivery_type)
     code = delivery_type[:code]
@@ -476,7 +450,6 @@ class Retailcrm
 
   ##
   # ===  Get order methods
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def order_methods
     url = "#{@url}reference/order-methods"
@@ -485,7 +458,6 @@ class Retailcrm
 
   ##
   # ===  Edit order method
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def order_methods_edit(order_method)
     code = order_method[:code]
@@ -496,7 +468,6 @@ class Retailcrm
 
   ##
   # ===  Get order types
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def order_types
     url = "#{@url}reference/order-types"
@@ -505,7 +476,6 @@ class Retailcrm
 
   ##
   # ===  Edit order type
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def order_types_edit(order_type)
     code = order_type[:code]
@@ -515,7 +485,6 @@ class Retailcrm
   end
 
   # Get payment statuses
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def payment_statuses
     url = "#{@url}reference/payment-statuses"
@@ -524,7 +493,6 @@ class Retailcrm
 
   ##
   # ===  Edit payment status
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def payment_statuses_edit(payment_status)
     code = payment_status[:code]
@@ -535,7 +503,6 @@ class Retailcrm
 
   ##
   # ===  Get payment types
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def payment_types
     url = "#{@url}reference/payment-types"
@@ -544,7 +511,6 @@ class Retailcrm
 
   ##
   # ===  Edit payment type
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def payment_types_edit(payment_type)
     code = payment_type[:code]
@@ -555,7 +521,6 @@ class Retailcrm
 
   ##
   # ===  Get product statuses
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def product_statuses
     url = "#{@url}reference/product-statuses"
@@ -564,7 +529,6 @@ class Retailcrm
 
   ##
   # ===  Edit product status
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def product_statuses_edit(product_status)
     code = product_status[:code]
@@ -574,7 +538,6 @@ class Retailcrm
   end
 
   # Get sites list
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def sites
     url = "#{@url}reference/sites"
@@ -583,7 +546,6 @@ class Retailcrm
 
   ##
   # ===  Edit site
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def sites_edit(site)
     code = site[:code]
@@ -594,7 +556,6 @@ class Retailcrm
 
   ##
   # ===  Get status groups
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def status_groups
     url = "#{@url}reference/status-groups"
@@ -602,7 +563,6 @@ class Retailcrm
   end
 
   # Get statuses
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def statuses
     url = "#{@url}reference/statuses"
@@ -611,7 +571,6 @@ class Retailcrm
 
   ##
   # ===  Edit status
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def statuses_edit(status)
     code = status[:code]
@@ -622,7 +581,6 @@ class Retailcrm
 
   ##
   # ===  Get stores
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def stores
     url = "#{@url}reference/stores"
@@ -631,7 +589,6 @@ class Retailcrm
 
   ##
   # ===  Edit store
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def stores_edit(store)
     code = store[:code]
@@ -641,7 +598,6 @@ class Retailcrm
   end
 
   # Get countries list
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def countries
     url = "#{@url}reference/countries"
@@ -650,7 +606,6 @@ class Retailcrm
 
   ##
   # ===  Statistic update
-  # http://www.retailcrm.ru/docs/Developers/ApiVersion3
   #
   def statistic_update
     url = "#{@url}statistic/update"

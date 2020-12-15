@@ -5,7 +5,7 @@ class Bootstrap
   attr_reader :api_key, :api_url, :order, :customer, :refs_get, :refs_edit
 
   def initialize
-    @api_url = 'https://demo.retailcrm.ru'
+    @api_url = 'https://demo.retailcrm.pro'
     @api_key = 'YourAPIKeyRightHere'
 
     id   = Time.now.to_i
@@ -14,9 +14,9 @@ class Bootstrap
     @customer = {
         :externalId => id,
         :createdAt => time,
-        :firstName => 'API',
-        :lastName => 'Test',
-        :email => 'pupkin@example.org',
+        :firstName => 'John',
+        :lastName => 'Doe',
+        :email => 'john@example.org',
         :phones => [{:number => '+79099099090'}]
     }
 
@@ -31,24 +31,23 @@ class Bootstrap
             :firstName => 'API',
             :lastName => 'Test',
             :customer => {
-                :firstName => 'Тестовый',
-                :lastName => 'Клиент',
+                :firstName => 'John',
+                :lastName => 'Doe',
                 :phones => [{:number => '+79099099090'}],
             },
             :delivery => {
                 :code => 'courier',
-                :cost => 500,
-                :address => {:text => '344000, Ростов-на-Дону, пр. Буденовский, 13'}
+                :cost => 500
             },
             :status => 'new',
             :items => [
                 {
-                    :productName => 'Товар 1',
+                    :productName => 'First',
                     :initialPrice => 500,
                     :quantity => 2
                 },
                 {
-                    :productName => 'Товар 2',
+                    :productName => 'Second',
                     :initialPrice => 1300,
                     :quantity => 1
                 }
@@ -75,24 +74,23 @@ class Bootstrap
                 :firstName => 'API',
                 :lastName => 'Test',
                 :customer => {
-                    :firstName => 'Тестовый',
-                    :lastName => 'Клиент',
+                    :firstName => 'John',
+                    :lastName => 'Doe',
                     :phones => [{:number => '+79099099090'}],
                 },
                 :delivery => {
                     :code => 'courier',
-                    :cost => 500,
-                    :address => {:text => '344000, Ростов-на-Дону, пр. Буденовский, 13'}
+                    :cost => 500
                 },
                 :status => 'new',
                 :items => [
                     {
-                        :productName => 'Товар 1',
+                        :productName => 'First',
                         :initialPrice => 500,
                         :quantity => 2
                     },
                     {
-                        :productName => 'Товар 2',
+                        :productName => 'Second',
                         :initialPrice => 1300,
                         :quantity => 1
                     }
@@ -107,24 +105,23 @@ class Bootstrap
                 :firstName => 'API2',
                 :lastName => 'Test2',
                 :customer => {
-                    :firstName => 'Тестовый2',
-                    :lastName => 'Клиент2',
+                    :firstName => 'Joe',
+                    :lastName => 'Doe',
                     :phones => [{:number => '+79099099000'}],
                 },
                 :delivery => {
                     :code => 'ems',
-                    :cost => 500,
-                    :address => {:text => '344000, Ростов-на-Дону, пр. Буденовский, 15'}
+                    :cost => 500
                 },
                 :status => 'availability-confirmed',
                 :items => [
                     {
-                        :productName => 'Товар 3',
+                        :productName => 'Third',
                         :initialPrice => 500,
                         :quantity => 2
                     },
                     {
-                        :productName => 'Товар 4',
+                        :productName => 'Extra',
                         :initialPrice => 1300,
                         :quantity => 1
                     }
@@ -192,7 +189,7 @@ class Bootstrap
         },
         sites_edit: {
             name: 'Rake Shop',
-            url: 'http://yandex.ru',
+            url: 'http://example.org',
             code: 'api-client-all',
             loadFromYml: false,
         },
